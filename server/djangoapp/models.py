@@ -2,7 +2,6 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-# Car Make Model
 class CarMake(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -11,17 +10,21 @@ class CarMake(models.Model):
         return self.name
 
 
-# Car Model
 class CarModel(models.Model):
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    dealer_id = models.IntegerField(default=0)
-
     name = models.CharField(max_length=100)
 
     CAR_TYPES = [
+        ('COUPE', 'Coupe'),
+        ('EXOTIC', 'Exotic/Supercar'),
+        ('HISTORIC', 'Historic'),
+        ('HYBRID', 'Hybrid/EV'),
+        ('RV', 'Recreational Vehicle'),
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
+        ('TRUCK', 'Truck'),
         ('WAGON', 'Wagon'),
+        ('VAN', 'Van')
     ]
 
     type = models.CharField(
@@ -31,12 +34,12 @@ class CarModel(models.Model):
     )
 
     year = models.IntegerField(
-        default=2023,
+        default=2024,
         validators=[
-            MaxValueValidator(2023),
-            MinValueValidator(2015)
+            MaxValueValidator(2025),
+            MinValueValidator(1886)
         ]
     )
 
     def __str__(self):
-        return f"{self.car_make.name} {self.name}"
+        return self.name
